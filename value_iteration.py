@@ -37,7 +37,8 @@ def test(policy):
 def decision(state, policy):
     return policy[state]
 
-def show(policy, state_value):
+def show(policy, state_value, delay=20):
+    env.reset()
     # Add policy
     # policy_matrix=np.random.rand(env.num_states, len(env.action_space))    
     policy_matrix=np.zeros((env.num_states, len(env.action_space)))    
@@ -57,7 +58,7 @@ def show(policy, state_value):
     env.add_state_values(values)
 
     # Render the environment
-    env.render(animation_interval=200)
+    env.render(animation_interval=delay)
     
 if __name__ == "__main__":             
     env = GridWorld()
