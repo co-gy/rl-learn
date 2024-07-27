@@ -4,7 +4,7 @@ import numpy as np
 
 def train(env: GridWorld):
     discount_rate = 0.9
-    max_iteration = 20
+    max_iteration = 50
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
     v_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     policy = {s: (1, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
