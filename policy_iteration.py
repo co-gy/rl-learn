@@ -23,7 +23,7 @@ def train(env: GridWorld):
                 next_state, reward = env._get_next_state_and_reward(s, a)
                 q_k[s][a] = reward + discount_rate * v_pi_k[next_state]
             max_action_value = max(q_k[s], key=lambda _a: q_k[s][_a])
-            policy[s] = max_action_value  # policy update
+            policy[s] = max_action_value
     
     return policy, v_pi_k
 
