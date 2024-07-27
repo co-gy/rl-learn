@@ -4,7 +4,7 @@ I'm implementing an algorithm from this book (Mathematical Foundation of Reinfor
 
 - Chapter 4
   - [x] Value Iteration
-  - [ ] Policy Iteration
+  - [x] Policy Iteration
 - Chapter 5
   - [ ] MC Basic
   - [ ] MC Exploring Starts
