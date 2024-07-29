@@ -5,6 +5,7 @@ I'm implementing an algorithm from this book (Mathematical Foundation of Reinfor
 - Chapter 4
   - [x] Value Iteration
   - [x] Policy Iteration
+  - [x] Truncated Policy Iteration
 - Chapter 5
   - [ ] MC Basic
   - [ ] MC Exploring Starts
