@@ -21,10 +21,29 @@ I'm implementing algorithms from this book (Mathematical Foundation of Reinforce
   - [ ] DQN
 
 ## Run
+
+It is easy to run the code by following the steps.
+
+1. activate your venv
 ```zsh
-# activate your venv
+conda activate base
+# or
+python -m venv venv
+. venv/bin/activate
+```
+
+2. install packages
+```zsh
 pip install -r requirements.txt
+```
+
+3. clone this repo
+```zsh
 git clone git@github.com:co-gy/rl-learn.git
+```
+4. run
+make sure your running directory is rl-learn
+```zsh
 cd rl-learn
 python algorithm/value_iteration.py
 ```
