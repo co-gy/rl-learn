@@ -1,5 +1,12 @@
+from importmonkey import add_path
+import os
+add_path(os.getcwd())
+
 from src import GridWorld
+from analysis import RecordStateValue
 import numpy as np
+import random
+from tqdm import trange
 
 
 def train(env: GridWorld):
@@ -7,13 +14,12 @@ def train(env: GridWorld):
     max_iteration = 50
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
     v_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
-    policy = {s: (1, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
+    policy = {s: random.choice(env.action_space) for s in env.state_space}  # pi(s) <-  policy[s] return a
 
-    v_k_history = ["0\n"]
-    v_k_file = open("./result/value_iteration/state_value_history.txt", "w")
+    recorder = RecordStateValue("./result/value_iteration/state_value_history.txt")
 
     # train
-    for k in range(max_iteration):
+    for k in trange(max_iteration):
         for s in env.state_space:
             for a in env.action_space:
                 next_state, reward = env._get_next_state_and_reward(s, a)
@@ -21,9 +27,7 @@ def train(env: GridWorld):
             max_action_value = max(q_k[s], key=lambda _a: q_k[s][_a])
             policy[s] = max_action_value  # policy update
             v_k[s] = max(q_k[s].values())  # value update
-        v_k_history.append(f"{np.linalg.norm(list(v_k.values()), ord=1)}\n")
-    v_k_file.writelines(v_k_history)
-    v_k_file.close()
+        recorder.add(np.linalg.norm(list(v_k.values()), ord=1))
     return policy, v_k
 
 def test(policy):
