@@ -42,6 +42,7 @@ pip install -r requirements.txt
 git clone git@github.com:co-gy/rl-learn.git
 ```
 4. run
+
 make sure your running directory is rl-learn
 ```zsh
 cd rl-learn
