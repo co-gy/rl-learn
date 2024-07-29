@@ -41,11 +41,11 @@ def generate_episodes(state, action, policy, env: GridWorld, length=30, num=1):
         episode = []
         next_state, next_action = state, action
         for _ in range(length):
-            visit = [next_state, next_action, 0]
+            step = [next_state, next_action, 0]
             next_state, reward = env._get_next_state_and_reward(next_state, next_action)
             next_action = policy[next_state]
-            visit[2] = reward
-            episode.append(visit)
+            step[2] = reward
+            episode.append(step)
         episodes.append(episode)
     # print(episodes)
     return episodes
