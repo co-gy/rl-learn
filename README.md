@@ -7,7 +7,7 @@ I'm implementing an algorithm from this book (Mathematical Foundation of Reinfor
   - [x] Policy Iteration
   - [x] Truncated Policy Iteration
 - Chapter 5
-  - [ ] MC Basic
+  - [x] MC Basic
   - [ ] MC Exploring Starts
   - [ ] MC $\epsilon$-greedy
 - Chapter 7
