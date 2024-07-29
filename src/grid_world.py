@@ -122,7 +122,7 @@ class GridWorld():
                 self.ax.add_patch(rect)
 
             self.agent_star, = self.ax.plot([], [], marker = '*', color=self.color_agent, markersize=20, linewidth=0.5) 
-            self.traj_obj, = self.ax.plot([], [], color=self.color_trajectory, linewidth=0.5)
+            self.traj_obj, = self.ax.plot([], [], color=self.color_trajectory, linewidth=2)
 
         # self.agent_circle.center = (self.agent_state[0], self.agent_state[1])
         self.agent_star.set_data([self.agent_state[0]],[self.agent_state[1]])       
