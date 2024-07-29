@@ -5,6 +5,7 @@ add_path(os.getcwd())
 from src import GridWorld
 from analysis import RecordStateValue
 import numpy as np
+import random
 from tqdm import trange
 
 
@@ -13,7 +14,7 @@ def train(env: GridWorld):
     max_iteration = 50
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
     v_pi_k = {s: 0 for s in env.state_space}  # v_{\pi_k}(s) <- v_k[s]
-    policy = {s: (0, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
+    policy = {s: random.choice(env.action_space) for s in env.state_space}  # pi(s) <-  policy[s] return a
     j_truncate = 1000
 
     recorder = RecordStateValue(f"./result/policy_iteration/state_value_history(truncate={j_truncate}).txt")
