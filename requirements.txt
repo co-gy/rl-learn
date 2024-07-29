@@ -1,0 +1,3 @@
+importmonkey==2.1.1
+matplotlib==3.9.1
+numpy==1.26.4
