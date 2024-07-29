@@ -9,8 +9,11 @@ def train(env: GridWorld):
     v_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     policy = {s: (1, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
 
+    v_k_history = ["0\n"]
+    v_k_file = open("./result/value_iteration/state_value_history.txt", "w")
+
     # train
-    for t in range(max_iteration):
+    for k in range(max_iteration):
         for s in env.state_space:
             for a in env.action_space:
                 next_state, reward = env._get_next_state_and_reward(s, a)
@@ -18,7 +21,10 @@ def train(env: GridWorld):
             max_action_value = max(q_k[s], key=lambda _a: q_k[s][_a])
             policy[s] = max_action_value  # policy update
             v_k[s] = max(q_k[s].values())  # value update
-    
+        v_k_history.append(f"{np.linalg.norm(list(v_k.values()), ord=1)}\n")
+    print(v_k_history)
+    v_k_file.writelines(v_k_history)
+    v_k_file.close()
     return policy, v_k
 
 def test(policy):

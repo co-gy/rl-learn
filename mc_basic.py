@@ -6,32 +6,16 @@ def train(env: GridWorld):
     discount_rate = 0.9
     max_iteration = 50
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
-    v_pi_k = {s: 0 for s in env.state_space}  # v_{\pi_k}(s) <- v_k[s]
-    policy = {s: (0, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
-    j_truncate = 1
-
-    v_pi_k_history = ["0\n"]
-    v_pi_k_file = open(f"./result/policy_iteration/state_value_history(truncate={j_truncate}).txt", "w")
+    v_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
+    policy = {s: (1, 0) for s in env.state_space}  # pi(s) <-  policy[s] return a
 
     # train
-    for k in range(max_iteration):
-        # policy evaluation
-        for _ in range(j_truncate):
-            for s in env.state_space:
-                a = policy[s]
-                next_state, reward = env._get_next_state_and_reward(s, a)
-                v_pi_k[s] = reward + discount_rate*v_pi_k[next_state]
-        # policy improvement
+    for t in range(max_iteration):
         for s in env.state_space:
             for a in env.action_space:
-                next_state, reward = env._get_next_state_and_reward(s, a)
-                q_k[s][a] = reward + discount_rate * v_pi_k[next_state]
-            max_action_value = max(q_k[s], key=lambda _a: q_k[s][_a])
-            policy[s] = max_action_value
-        v_pi_k_history.append(f"{np.linalg.norm(list(v_pi_k.values()), ord=1)}\n")
-    v_pi_k_file.writelines(v_pi_k_history)
-    v_pi_k_file.close()
-    return policy, v_pi_k
+                ...
+    
+    return policy, v_k
 
 def test(policy):
     # use trained policy
