@@ -22,7 +22,6 @@ def train(env: GridWorld):
             policy[s] = max_action_value  # policy update
             v_k[s] = max(q_k[s].values())  # value update
         v_k_history.append(f"{np.linalg.norm(list(v_k.values()), ord=1)}\n")
-    print(v_k_history)
     v_k_file.writelines(v_k_history)
     v_k_file.close()
     return policy, v_k
