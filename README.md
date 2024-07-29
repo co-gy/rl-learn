@@ -1,6 +1,6 @@
 # RL Learn
 
-I'm implementing an algorithm from this book (Mathematical Foundation of Reinforcement Learning). I used the [GridWorld environment code](https://github.com/MathFoundationRL/Book-Mathematical-Foundation-of-Reinforcement-Learning) provided by the author and made a few changes.
+I'm implementing algorithms from this book (Mathematical Foundation of Reinforcement Learning). I used the [GridWorld environment code](https://github.com/MathFoundationRL/Book-Mathematical-Foundation-of-Reinforcement-Learning) provided by the author and made a few changes.
 
 ![result](https://github.com/co-gy/rl-learn/blob/main/assets/combine.png)
 ## Menu
