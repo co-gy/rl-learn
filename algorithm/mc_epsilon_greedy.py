@@ -10,22 +10,25 @@ from tqdm import trange
 
 
 def train(env: GridWorld):
-    discount_rate = 0.99
-    max_iteration = 3
+    discount_rate = 0.95
+    max_iteration = 3000
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
     v_pi_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     policy = {s: dict.fromkeys(env.action_space, 1/len(env.action_space)) for s in env.state_space}  # pi(s) <-  policy[s] return a
 
     num = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Num(s, a) <- num[s][a]
     return_ = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Return(s, a) <- return[s][a]
-    episode_length = 1000000
+    episode_length = 1000
     epsilon = 0.6
 
     # train
-    for k in trange(max_iteration):
+    last_v_pi_k = v_pi_k.copy()
+    for k in (pbar := trange(max_iteration)):
+        print("\r", k, end="", flush=True)
         episode = generate_episode(policy, env, episode_length)
         g = 0  # sample of G_t
-        epsilon = 0.6
+        epsilon = max(0.1, epsilon-0.003)
+        last_v_pi_k = v_pi_k.copy()
         for state, action, reward in reversed(episode):
             g = reward + discount_rate * g
             return_[state][action] += g
@@ -34,26 +37,24 @@ def train(env: GridWorld):
             q_k[state][action] = return_[state][action] / num[state][action]
             # policy improvement
             max_value_action = max(q_k[state], key=lambda _a: q_k[state][_a])
-            epsilon = max(0, epsilon-0.001)
             policy[state][max_value_action] = 1 - epsilon * (mathcal_A(state, env) - 1) / mathcal_A(state, env)
             for a in policy[state].keys():
                 if a != max_value_action:
                     policy[state][a] = epsilon / mathcal_A(state, env)
             v_pi_k[state] = max(q_k[state].values())
+        pbar.set_description(f"{k}: {np.linalg.norm(np.array(list(last_v_pi_k.values())) - np.array(list(v_pi_k.values())))}")
     return policy, v_pi_k
 
 def generate_episode(policy, env: GridWorld, length=10000):
     episode = []
     state, _ = env.reset()
-    state = env.agent_state = random.choice(env.state_space)
-    env.traj.clear()
     for _ in range(length):
         action = decision(state, policy, train=True)
         step = [state, action, 0]
         state, reward, _, _ = env.step(action)
         step[2] = reward
         episode.append(step)
-        # env.render()
+        # env.render(animation_interval=0.01)
     return episode
 
 def mathcal_A(state, env):
