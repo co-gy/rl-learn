@@ -10,21 +10,22 @@ from tqdm import trange
 
 
 def train(env: GridWorld):
-    discount_rate = 0.95
-    max_iteration = 50
+    discount_rate = 0.99
+    max_iteration = 3
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
     v_pi_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     policy = {s: dict.fromkeys(env.action_space, 1/len(env.action_space)) for s in env.state_space}  # pi(s) <-  policy[s] return a
 
     num = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Num(s, a) <- num[s][a]
     return_ = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Return(s, a) <- return[s][a]
-    episode_length = 10000
-    epsilon = 0.5
+    episode_length = 1000000
+    epsilon = 0.6
 
     # train
     for k in trange(max_iteration):
         episode = generate_episode(policy, env, episode_length)
         g = 0  # sample of G_t
+        epsilon = 0.6
         for state, action, reward in reversed(episode):
             g = reward + discount_rate * g
             return_[state][action] += g
@@ -33,6 +34,7 @@ def train(env: GridWorld):
             q_k[state][action] = return_[state][action] / num[state][action]
             # policy improvement
             max_value_action = max(q_k[state], key=lambda _a: q_k[state][_a])
+            epsilon = max(0, epsilon-0.001)
             policy[state][max_value_action] = 1 - epsilon * (mathcal_A(state, env) - 1) / mathcal_A(state, env)
             for a in policy[state].keys():
                 if a != max_value_action:
