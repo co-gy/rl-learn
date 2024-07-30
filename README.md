@@ -11,8 +11,8 @@ I'm implementing algorithms from this book (Mathematical Foundation of Reinforce
   - [x] Truncated Policy Iteration
 - Chapter 5
   - [x] MC Basic
-  - [ ] MC Exploring Starts
-  - [ ] MC $\epsilon$-greedy
+  - [x] MC Exploring Starts
+  - [x] MC $\epsilon$-greedy
 - Chapter 7
   - [ ] sarsa
   - [ ] n-step sarsa

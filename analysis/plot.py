@@ -23,7 +23,6 @@ class PlotStateValue(object):
 class RecordStateValue(object):
     def __init__(self, file_name):
         self.file = open(file_name, "w")
-        print(file_name)
         self.state_value_history = ["0\n"]
     
     def add(self, state_value):

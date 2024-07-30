@@ -13,29 +13,51 @@ def train(env: GridWorld):
     discount_rate = 0.9
     max_iteration = 50
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
-    v_pi_k = {s: 0 for s in env.state_space}  # v_{\pi_k}(s) <- v_k[s]
+    v_pi_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     policy = {s: random.choice(env.action_space) for s in env.state_space}  # pi(s) <-  policy[s] return a
-    j_truncate = 1000
+    
+    # count visits for each (s, a) pair
+    num = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Num(s, a) <- num[s][a]
+    return_ = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # Return(s, a) <- return[s][a]
+    episode_length = 50
 
-    recorder = RecordStateValue(f"./result/policy_iteration/state_value_history(truncate={j_truncate}).txt")
+    recorder = RecordStateValue("./result/mc_exploring_start/state_value_history.txt")
 
     # train
     for k in trange(max_iteration):
-        # policy evaluation
-        for _ in range(j_truncate):
-            for s in env.state_space:
-                a = policy[s]
-                next_state, reward = env._get_next_state_and_reward(s, a)
-                v_pi_k[s] = reward + discount_rate*v_pi_k[next_state]
-        # policy improvement
         for s in env.state_space:
             for a in env.action_space:
-                next_state, reward = env._get_next_state_and_reward(s, a)
-                q_k[s][a] = reward + discount_rate * v_pi_k[next_state]
-            max_value_action = max(q_k[s], key=lambda _a: q_k[s][_a])
-            policy[s] = max_value_action
+                # collect sufficiently many episodes starting from (s, a) by \pi_k (exploring-starts condition)
+                episodes = generate_episodes(s, a, policy, env, episode_length)
+                for episode in episodes:
+                    g = 0  # sample of G_t
+                    for state, action, reward in reversed(episode):
+                        g = reward + discount_rate * g
+                        return_[state][action] += g
+                        num[state][action] += 1
+                        # policy evaluation
+                        q_k[state][action] = return_[state][action] / num[state][action]
+                        # policy improvement
+                        max_value_action = max(q_k[state], key=lambda _a: q_k[state][_a])
+                        policy[state] = max_value_action
+            v_pi_k[s] = max(q_k[s].values())
         recorder.add(np.linalg.norm(list(v_pi_k.values()), ord=1))
     return policy, v_pi_k
+
+def generate_episodes(state, action, policy, env: GridWorld, length=30, num=1):
+    episodes = []
+    for _ in range(num):
+        episode = []
+        next_state, next_action = state, action
+        for _ in range(length):
+            step = [next_state, next_action, 0]
+            next_state, reward = env._get_next_state_and_reward(next_state, next_action)
+            next_action = policy[next_state]
+            step[2] = reward
+            episode.append(step)
+        episodes.append(episode)
+    # print(episodes)
+    return episodes
 
 def test(policy):
     # use trained policy

@@ -24,8 +24,8 @@ def train(env: GridWorld):
             for a in env.action_space:
                 next_state, reward = env._get_next_state_and_reward(s, a)
                 q_k[s][a] = reward + discount_rate * v_k[next_state]
-            max_action_value = max(q_k[s], key=lambda _a: q_k[s][_a])
-            policy[s] = max_action_value  # policy update
+            max_value_action = max(q_k[s], key=lambda _a: q_k[s][_a])
+            policy[s] = max_value_action  # policy update
             v_k[s] = max(q_k[s].values())  # value update
         recorder.add(np.linalg.norm(list(v_k.values()), ord=1))
     return policy, v_k

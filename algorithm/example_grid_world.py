@@ -1,5 +1,8 @@
+from importmonkey import add_path
+import os
+add_path(os.getcwd())
 
-from src.grid_world import GridWorld
+from src import GridWorld
 import random
 import numpy as np
 
