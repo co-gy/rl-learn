@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = np.linspace(-2, 3.5, 10000)
+x = np.linspace(0, 3.5, 10000)
 y = lambda x_: np.tanh(np.array(x_)-1)
 max_iteration = 100
 make_noise = False
