@@ -17,7 +17,6 @@ I'm implementing algorithms from this book (Mathematical Foundation of Reinforce
   - [x] RM Algorithm example
 - Chapter 7
   - [x] Sarsa
-  - [ ] n-step Sarsa
   - [ ] Q-learning
 - Chapter 8
   - [ ] DQN
