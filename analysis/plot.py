@@ -32,3 +32,16 @@ class RecordStateValue(object):
         self.file.writelines(self.state_value_history)
         self.file.close()
 
+
+class Recorder(object):
+    def __init__(self, file_name):
+        self.file = open(file_name, "w")
+        self.record = []
+    
+    def add(self, data):
+        self.record.append(f"{data}\n")
+
+    def __del__(self):
+        self.file.writelines(self.record)
+        self.file.close()
+
