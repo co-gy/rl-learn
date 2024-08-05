@@ -17,7 +17,8 @@ I'm implementing algorithms from this book (Mathematical Foundation of Reinforce
   - [x] RM Algorithm example
 - Chapter 7
   - [x] Sarsa
-  - [ ] Q-learning
+  - [x] Q-learning (on-policy version)
+  - [x] Q-learning (off-policy version)
 - Chapter 8
   - [ ] DQN
 
