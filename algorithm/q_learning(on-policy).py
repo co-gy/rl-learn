@@ -14,7 +14,7 @@ def train(env: GridWorld):
     max_iteration = 500
     v_pi_k = {s: 0 for s in env.state_space}  # v_k(s) <- v_k[s]
     q_k = {s: dict.fromkeys(env.action_space, 0) for s in env.state_space}  # q_k(s, a) <- q_k[s][a]
-    policy = {s: dict.fromkeys(env.action_space, 1/len(env.action_space)) for s in env.state_space}  # pi(a|s) <-  policy[s][s]
+    policy = {s: dict.fromkeys(env.action_space, 1/len(env.action_space)) for s in env.state_space}  # pi(a|s) <-  policy[s][a]
     
     episode_length = 500
     alpha = {s: dict.fromkeys(env.action_space, 0.1) for s in env.state_space}
