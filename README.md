@@ -19,8 +19,6 @@ I'm implementing algorithms from this book (Mathematical Foundation of Reinforce
   - [x] Sarsa
   - [x] Q-learning (on-policy version)
   - [x] Q-learning (off-policy version)
-- Chapter 8
-  - [ ] DQN
 
 ## Run
 
